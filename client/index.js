@@ -8,14 +8,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Nota proxy
   // Hreinsa header og upplýsingar þegar ný gögn eru sótt
   // Sterkur leikur að refactora úr virkni fyrir event handler í sér fall
-
-  const earthquakes = await fetchEarthquakes();
-
+  
+  const url = window.location.search;
+  const URLparams = new URLSearchParams(url);
+  const period = URLparams.get('period');
+  const type = URLparams.get('type');
+  const earthquakes = await fetchEarthquakes('significant', 'day');
+  console.log(earthquakes);
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
   const loading = document.querySelector('.loading');
   const parent = loading.parentNode;
   parent.removeChild(loading);
-
   if (!earthquakes) {
     parent.appendChild(
       el('p', 'Villa við að sækja gögn'),

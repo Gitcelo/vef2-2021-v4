@@ -16,6 +16,17 @@ const app = express();
 const path = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(join(path, '../public')));
+app.use(express.static(join(path, '../node_modules/leaflet/dist')));
+app.set('view engine', 'ejs');
+app.set('views', join(path, '../views'));
+
+app.get('/', (_req, res) => {
+  res.sendFile('index.html', {
+    root: join(path, '..'),
+  });
+});
+
+app.use(proxyRouter);
 
 // TODO setja upp proxy þjónustu
 // TODO birta index.html skjal
