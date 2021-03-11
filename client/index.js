@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   const url = window.location.search;
   const URLparams = new URLSearchParams(url);
-  const period = URLparams.get('period');
-  const type = URLparams.get('type');
-  const earthquakes = await fetchEarthquakes('significant', 'day');
+  const period = URLparams.has('period') ? URLparams.get('period') : 'hour';
+  const type = URLparams.has('type') ? URLparams.get('type') : 'significant';
+
+  const earthquakes = await fetchEarthquakes(type, period);
   console.log(earthquakes);
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
   const loading = document.querySelector('.loading');
@@ -27,10 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const ul = document.querySelector('.earthquakes');
   const map = document.querySelector('.map');
+  const duration = earthquakes.info.time;
 
   init(map);
 
-  earthquakes.forEach((quake) => {
+  earthquakes.data.features.forEach((quake) => {
     const {
       title, mag, time, url,
     } = quake.properties;

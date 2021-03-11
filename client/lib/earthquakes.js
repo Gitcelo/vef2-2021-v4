@@ -1,5 +1,5 @@
 export async function fetchEarthquakes(type, period) {
-  console.log('hæ');
+  if (!type || !period) {res.json({})}
   const url = `/proxy?period=${period}&type=${type}`;
   let result;
   try {
@@ -13,8 +13,7 @@ export async function fetchEarthquakes(type, period) {
     console.error('Ekki 200 svar', await result.text());
     return null;
   }
-  
- // const data = await result.json();
-  console.log(data);
+
+  const data = await result.json();
   return data;
 }

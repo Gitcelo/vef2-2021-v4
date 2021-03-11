@@ -1,6 +1,7 @@
 // TODO útfæra redis cache
 import redis from 'redis';
 import util from 'util';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
