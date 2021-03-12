@@ -1,7 +1,7 @@
 export async function fetchEarthquakes(type, period) {
-  if(!type || !period) {
+  if (!type || !period) {
     const data = {
-      data:{},
+      data: {},
     };
     return data;
   }

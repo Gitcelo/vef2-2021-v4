@@ -9,18 +9,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Hreinsa header og upplýsingar þegar ný gögn eru sótt
   // Sterkur leikur að refactora úr virkni fyrir event handler í sér fall
 
-  const url = window.location.search;
-  const URLparams = new URLSearchParams(url);
-  //const period = URLparams.has('period') ? URLparams.get('period') : 'hour';
-  //const type = URLparams.has('type') ? URLparams.get('type') : 'significant';
+  const urls = window.location.search;
+  const URLparams = new URLSearchParams(urls);
+  // const period = URLparams.has('period') ? URLparams.get('period') : 'hour';
+  // const type = URLparams.has('type') ? URLparams.get('type') : 'significant';
   const period = URLparams.get('period');
   const type = URLparams.get('type');
   const loading = document.querySelector('.loading');
   loading.classList.toggle('hidden');
   const earthquakes = await fetchEarthquakes(type, period);
-  console.log(earthquakes);
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
-  //const loading = document.querySelector('.loading');
+  // const loading = document.querySelector('.loading');
   const parent = loading.parentNode;
   parent.removeChild(loading);
   if (!earthquakes) {
