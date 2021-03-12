@@ -3,7 +3,7 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import { timerStart, timerEnd } from './time.js';
-// import { get, set } from './cache.js';
+import { get, set } from './cache.js';
 
 export const router = express.Router();
 
@@ -40,9 +40,9 @@ function head(type, period) {
 
 router.get('/proxy', async (req, res, next) => {
   const url = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/${req.query.type}_${req.query.period}.geojson`;
-  // const key = `${req.query.type}_${req.query.period}`;
+  const key = `${req.query.type}_${req.query.period}`;
   let result;
-  /* let timer = timerStart();
+  let timer = timerStart();
 
   result = await get(key);
   if (result) {
@@ -55,8 +55,8 @@ router.get('/proxy', async (req, res, next) => {
       },
     };
     return res.json(data);
-  } */
-  const timer = timerStart();
+  }
+  timer = timerStart();
   try {
     result = await fetch(url);
   } catch (e) {
@@ -71,6 +71,6 @@ router.get('/proxy', async (req, res, next) => {
       elapsed: timerEnd(timer),
     },
   };
-  // set(key, data, 120);
+  set(key, data, 120);
   return res.json(data);
 });
