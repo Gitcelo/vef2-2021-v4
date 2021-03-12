@@ -1,6 +1,5 @@
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-
 import express from 'express';
 import dotenv from 'dotenv';
 

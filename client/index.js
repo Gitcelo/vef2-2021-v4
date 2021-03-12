@@ -8,27 +8,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Nota proxy
   // Hreinsa header og upplýsingar þegar ný gögn eru sótt
   // Sterkur leikur að refactora úr virkni fyrir event handler í sér fall
-  
+
   const url = window.location.search;
   const URLparams = new URLSearchParams(url);
-  const period = URLparams.has('period') ? URLparams.get('period') : 'hour';
-  const type = URLparams.has('type') ? URLparams.get('type') : 'significant';
-
+  //const period = URLparams.has('period') ? URLparams.get('period') : 'hour';
+  //const type = URLparams.has('type') ? URLparams.get('type') : 'significant';
+  const period = URLparams.get('period');
+  const type = URLparams.get('type');
+  const loading = document.querySelector('.loading');
+  loading.classList.toggle('hidden');
   const earthquakes = await fetchEarthquakes(type, period);
   console.log(earthquakes);
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
-  const loading = document.querySelector('.loading');
+  //const loading = document.querySelector('.loading');
   const parent = loading.parentNode;
   parent.removeChild(loading);
   if (!earthquakes) {
     parent.appendChild(
       el('p', 'Villa við að sækja gögn'),
     );
+  } else if (earthquakes.info) {
+    document.getElementById('head').innerHTML = earthquakes.headers;
+    const cached = (earthquakes.info.cached) ? 'Gögn eru í cache. ' : 'Gögn eru ekki í cache. ';
+    const elapsed = `Fyrirspurn tók ${earthquakes.info.elapsed} sek.`;
+    const info = cached + elapsed;
+    document.querySelector('.cache').innerHTML = info;
   }
 
   const ul = document.querySelector('.earthquakes');
   const map = document.querySelector('.map');
-  const duration = earthquakes.info.time;
 
   init(map);
 
